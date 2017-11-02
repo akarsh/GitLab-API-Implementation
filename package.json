@@ -1,0 +1,36 @@
+{
+  "name": "gitlab-api-implementation",
+  "version": "1.0.0",
+  "description": "This project shows the implementation of GitLab API",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \\\\\\\"Error: no test specified\\\\\\\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akarsh/GitLab-API-Implementation.git"
+  },
+  "keywords": [
+    "nodejs",
+    "html5",
+    "gitlab-api"
+  ],
+  "author": "Akarsh Seggemu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/akarsh/GitLab-API-Implementation/issues"
+  },
+  "homepage": "https://github.com/akarsh/GitLab-API-Implementation#readme",
+  "dependencies": {
+    "adbkit": "^2.11.0",
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "express-slash": "^2.0.1",
+    "formidable": "^1.1.1",
+    "gitlab": "^1.7.1",
+    "request": "^2.83.0",
+    "stream": "0.0.2"
+  }
+}
