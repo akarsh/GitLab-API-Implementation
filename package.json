@@ -24,6 +24,7 @@
   "homepage": "https://github.com/akarsh/GitLab-API-Implementation#readme",
   "dependencies": {
     "adbkit": "^2.11.0",
+    "axios": "^0.17.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",

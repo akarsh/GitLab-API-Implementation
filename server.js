@@ -17,6 +17,8 @@ var request = require('request') // request library to make http calls https://w
 var Readable = require('stream').Readable // stream library https://www.npmjs.com/package/stream
 var client = adb.createClient()
 
+var axios = require('axios') // axios library https://www.npmjs.com/package/axios
+
 // Global variables
 var storeProjectId; // Project Id
 var storeProjectName; // Project Name
@@ -57,6 +59,10 @@ app.post('/step1', function (req, res) {
 app.post('/step2', function (req, res) {
     secondProcessTheButtonFrom(req, res);
 })
+
+app.post('/step2/trace', function(req, res) {
+    thirdProcessTheButtonFrom(req, res);
+}) 
 
 // This function displays the form.html
 function displayForm(res) {
@@ -199,6 +205,7 @@ function processAllFieldsOfTheForm(req, res) {
                     <th>Artifact (filename and size)  &nbsp;  &nbsp;  &nbsp; </th>
                     <th>Download artifact &nbsp; &nbsp; &nbsp; &nbsp; </th>
                     <th>Install artifact</th>
+                    <th>Stack trace</th>
                 </tr>
             `);
             // For loop that iterates and displays the build details
@@ -216,16 +223,28 @@ function processAllFieldsOfTheForm(req, res) {
                     res.write(`
                         <td>` + JSON.stringify(storeBuildArtifacts[iterationNumber].filename).replace(/\"/g, "") + `, ` + JSON.stringify(storeBuildArtifacts[iterationNumber].size) + `</td>
                         <td>
-                            <a class="glyphicon glyphicon-cloud-download" aria-hidden="true" href="` + credentials.url + '/' + storeProjectUsername + '/' + storeProjectName + '/-/jobs/' + storeBuildId[iterationNumber] + `/artifacts/download' + '">
+                            <a class="glyphicon glyphicon-cloud-download" aria-hidden="true" href="` + credentials.url + '/' + storeProjectUsername + '/' + storeProjectName + '/-/jobs/' + storeBuildId[iterationNumber] + `/artifacts/download">
                             </a>
                         </td>
                         <td>
                             <form action="/step2" method="post" enctype="multipart/form-data">
                                 <fieldset>
-                                    <input type="hidden" name="dataUrl" value="` + credentials.url + '/' + storeProjectUsername + '/' + storeProjectName + '/-/jobs/' + storeBuildId[iterationNumber] + '/artifacts/raw/app/build/outputs/apk/app-debug.apk' + `" />
+                                    <input type="hidden" name="dataUrl" value="` + credentials.url + '/' + storeProjectUsername + '/' + storeProjectName + '/-/jobs/' + storeBuildId[iterationNumber] + `/artifacts/raw/app/build/outputs/apk/app-debug.apk" />
                                     <input type="submit" value="Install" />
                                 </fieldset>
                             </form>
+                        </td>
+                        <td>
+                            <form action="/step2/trace" method="post" enctype="multipart/form-data">
+                                <fieldset>
+                                    <input type="hidden" name="dataUrl" value="` + credentials.url + '/' + storeProjectUsername + '/' + storeProjectName + '/-/jobs/' + storeBuildId[iterationNumber] + `/trace" />
+                                    <input type="submit" value="Open stack trace" />
+                             </fieldset>
+                            </form>
+                            <!--
+                            <a class="glyphicon glyphicon-cloud-download" aria-hidden="true" target="_blank" href="` + credentials.url + '/' + storeProjectUsername + '/' + storeProjectName + '/-/jobs/' + storeBuildId[iterationNumber] + `/trace">
+                            </a>
+                            -->
                         </td>
                     </tr>
                     `);
@@ -360,6 +379,84 @@ function secondProcessTheButtonFrom(req, res) {
 
         // Invoke the installAPKFile function
         installAPKFile();
+    });
+}
+
+function thirdProcessTheButtonFrom(req, res) {
+    var form = new formidable.IncomingForm();
+
+    // Parses the form data and maps the form data.
+    form.parse(req, function (err, fields) {
+        // This variable stores the dataUrl
+        var urlToBeSent = fields.dataUrl;
+
+        axios(urlToBeSent)
+        .then(function(response) {
+          // Wrties the head of the new html page
+        res.writeHead(200, {
+            'content-type': 'text/html'
+        });
+        res.write(`
+        <!DOCTYPE html>
+        <html lang="en">            
+        <head>
+            <title>RoCIiMD</title>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        </head>
+        <body>
+        <div class="container">
+            <div class="jumbotron">
+                <!-- Chair for Open Distributed Systems -->
+                <img align="right" src="/images/ODS_logo.png" width="90" style="margin-left: 2%; margin-right: 2%;">
+                <!-- Technische Universität Berlin -->
+                <img align="right" src="/images/logo.svg" width="70">
+                <br />
+                <br />
+                <br />
+                <br />
+                <h3>Implentation and integration of GitLab API with adbkit library</h3>
+                <p>This projet website is created part of the master thesis "Review on CI in Mobile Development" (RoCIiMD)</p>
+                <strong>Supervisor:</strong> André Paul
+                <br />
+                <strong>Student:</strong> Akarsh Seggemu
+                <br />
+                <br /> in cooperation with
+                <br />
+                <!-- Fraunhofer-Institut für Offene Kommunikationssysteme (FOKUS) -->
+                <img src="http://localhost:1185/images/FF_logo.png" width="140" alt="Logo of FOKUS">
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+        `);
+        res.write(`
+                <h3>Stack trace</h3>
+                <div>
+                <pre>
+                <code>
+                `+ response.data.html + `
+                </code>
+                </pre>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <!-- Footer -->
+            <div id="footer">
+                <p>Copyright © 2017. Made with &hearts; by
+                    <a href="https://akarsh.github.io/" target="_blank">Akarsh Seggemu</a>.</p>
+            </div>
+        </div>
+        </body>
+        </html>
+        `);
+        res.end();
+        });
     });
 }
 
