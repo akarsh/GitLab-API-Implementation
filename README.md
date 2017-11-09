@@ -152,3 +152,9 @@ This project uses Open Source components. You can find the source code of their 
   Author: [3 contributors](https://github.com/juliangruber/stream/graphs/contributors)
 
   License: [MIT](https://github.com/juliangruber/stream#license)
+
+* Project: [axios](https://github.com/axios/axios)
+
+  Author: [110 contributors](https://github.com/axios/axios/graphs/contributors)
+
+  License: [MIT](https://github.com/axios/axios/blob/master/LICENSE)
