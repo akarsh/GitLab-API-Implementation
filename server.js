@@ -250,7 +250,22 @@ function processAllFieldsOfTheForm(req, res) {
                     </tr>
                     `);
                 } else {
-                    res.write('<td></td></tr>');
+                    res.write(`<td></td>
+                    	<td></td>
+                    	<td></td>
+                    	<td>
+                    	<form action="/step2/trace" method="post" enctype="multipart/form-data">
+                                <fieldset>
+                                    <input type="hidden" name="dataUrl" value="` + credentials.url + '/' + storeProjectUsername + '/' + storeProjectName + '/-/jobs/' + storeBuildId[iterationNumber] + `/trace" />
+                                    <input type="submit" value="Open stack trace" />
+                             </fieldset>
+                            </form>
+                            <!--
+                            <a class="glyphicon glyphicon-cloud-download" aria-hidden="true" target="_blank" href="` + credentials.url + '/' + storeProjectUsername + '/' + storeProjectName + '/-/jobs/' + storeBuildId[iterationNumber] + `/trace">
+                            </a>
+                            -->
+                        </td>`);
+                    res.write('</tr>');
                 }
             }
             // Button to send data url
