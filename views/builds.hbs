@@ -9,8 +9,8 @@
         <th>Stage</th>
         <th>Reference branch &nbsp; &nbsp; &nbsp; </th>
         <th>Artifact (filename and size) &nbsp; &nbsp; &nbsp; </th>
-        <th>Download artifact &nbsp; &nbsp; &nbsp; &nbsp; </th>
-        <th>Install artifact</th>
+        <th>Download artefact &nbsp; &nbsp; &nbsp; &nbsp; </th>
+        <th>Install artefact</th>
         <th>Stack trace</th>
     </tr>
     {{#each buildID}}
@@ -20,6 +20,7 @@
         <td>{{lookup ../buildStatus @index}} &nbsp; &nbsp; &nbsp; </td>
         <td>{{lookup ../buildStage @index}} &nbsp; &nbsp; &nbsp; &nbsp; </td>
         <td>{{lookup ../buildRefere @index}}</td>    
+        {{#if (lookup ../JSONParsedFilename @index)}}
         <td>{{{lookup ../JSONParsedFilename @index}}} {{lookup ../JSONParsedFileSize @index}}</td>
         <td>
             <a class="glyphicon glyphicon-cloud-download" aria-hidden="true" href="{{../gitLabUrl}}/{{../projectUserName}}/{{../projectName}}/-/jobs/{{this}}/artifacts/download">
@@ -34,6 +35,11 @@
                 </fieldset>
             </form>
         </td>
+        {{else}}
+        <td></td>
+        <td></td>
+        <td></td>
+        {{/if}}
         <td>
             <form action="/projects/branches/builds/trace" method="post" enctype="multipart/form-data">
                 <fieldset>

@@ -164,7 +164,7 @@ function processAllFieldsOfTheBuildsForm(req, res) {
             storeJSONParsedFilename.push(JSON.stringify(result[j].artifacts_file.filename).replace(/\"/g, ""));
             storeJSONParsedFileSize.push(JSON.stringify(result[j].artifacts_file.size));
           } else {
-            storeBuildArtifacts.push({"filename":"","size":""});
+            storeBuildArtifacts.push("");
             storeJSONParsedFilename.push("");
             storeJSONParsedFileSize.push("");
           }
