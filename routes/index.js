@@ -1,7 +1,13 @@
+/**
+  * Copyright (c) 2017 Akarsh Seggemu
+**/
 var express = require('express');
 var router = express.Router();
 
-var formidable = require("formidable");
+var fs = require('fs'); // fs library https://www.npmjs.com/package/fs
+var util = require('util'); // util library https://www.npmjs.com/package/util
+
+var formidable = require("formidable"); // formidable library https://www.npmjs.com/package/formidable
 
 /* GitLab nodeJS library to access GitLab API */
 var gitlab = require('gitlab'); // gitlab library https://www.npmjs.com/package/gitlab
@@ -37,6 +43,15 @@ var branchesForThisProjectUserName;
 var BuildsForThisprojectBranchId; // Project Id of a selected build
 var BuildsForThisprojectBranchProjectName;
 var BuildsForThisprojectBranchProjectUserName;
+var BuildsForThisprojectBranchName;
+
+var installBuildsprojectName; // Project Name of a selected build that is installed
+var installBuildsprojectBranchName;
+var installBuildsprojectBranchBuildName;
+
+var traceBuildsprojectName; // Project Name of a selected trace
+var traceBuildsprojectBranchName;
+var traceBuildsprojectBranchBuildName;
 
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -150,10 +165,11 @@ function processAllFieldsOfTheBuildsForm(req, res) {
     BuildsForThisprojectBranchId = fields.projectBranchId;
     BuildsForThisprojectBranchProjectName = fields.projectBranchProjectName;
     BuildsForThisprojectBranchProjectUserName = fields.projectBranchProjectUserName;
+    BuildsForThisprojectBranchName = fields.projectBranchName;
     // Listing builds based on project id
     gitlab.projects.builds.listBuilds(BuildsForThisprojectBranchId, function (result) {
       for (var j = 0; j < result.length; j++) {
-        if (result[j].ref === fields.branchName) {
+        if (result[j].ref === fields.projectBranchName) {
           storeBuildId.push(result[j].id);
           storeBuildName.push(result[j].name);
           storeBuildStatus.push(result[j].status);
@@ -187,6 +203,7 @@ function renderBuildsPage(res) {
     gitLabUrl: credentials.url,
     projectName: BuildsForThisprojectBranchProjectName,
     projectUserName: BuildsForThisprojectBranchProjectUserName,
+    projectBranchName: BuildsForThisprojectBranchName,
     JSONParsedFilename: storeJSONParsedFilename,
     JSONParsedFileSize: storeJSONParsedFileSize
   });
@@ -198,6 +215,10 @@ function processAllFieldsOfTraceForm(req, res) {
 
   // Parses the form data and maps the form data.
   form.parse(req, function (err, fields) {
+    // Data related to projects that has to be sent
+    traceBuildsprojectName = fields.projectName;
+    traceBuildsprojectBranchName = fields.projectBranchName;
+    traceBuildsprojectBranchBuildName = fields.projectBranchBuildName;
     // This variable stores the dataUrl
     var urlToBeSent = fields.dataUrl;
     axios(urlToBeSent)
@@ -214,7 +235,10 @@ function processAllFieldsOfTraceForm(req, res) {
 function renderTracePage(res, responseInHtml) {
   res.render('trace', {
     title: 'trace',
-    responseInHtml: responseInHtml
+    responseInHtml: responseInHtml,
+    traceBuildsprojectName: traceBuildsprojectName,
+    traceBuildsprojectBranchName: traceBuildsprojectBranchName,
+    traceBuildsprojectBranchBuildName: traceBuildsprojectBranchBuildName
   });
 }
 
@@ -224,6 +248,10 @@ function processAllFieldsOfInstallForm(req, res) {
 
   // Parses the form data and maps the form data.
   form.parse(req, function (err, fields) {
+    // Data related to projects that has to be sent
+    installBuildsprojectName = fields.projectName;
+    installBuildsprojectBranchName = fields.projectBranchName;
+    installBuildsprojectBranchBuildName = fields.projectBranchBuildName;
     // This variable stores the dataUrl
     var urlToBeSent = fields.dataUrl;
     // This function installs the artifact file i.e. apk file on the connected devices
@@ -251,7 +279,10 @@ function processAllFieldsOfInstallForm(req, res) {
 function renderInstallPage(res, responseToDisplay) {
   res.render('install', {
     title: 'install',
-    responseToDisplay: responseToDisplay
+    responseToDisplay: responseToDisplay,
+    installBuildsprojectName: installBuildsprojectName,
+    installBuildsprojectBranchName: installBuildsprojectBranchName,
+    installBuildsprojectBranchBuildName: installBuildsprojectBranchBuildName
   });
 }
 

@@ -1,3 +1,7 @@
+<ol class="breadcrumb">
+  <li class="text-primary breadcrumb-item">Project name - {{projectBranchProjectName}}</li>
+</ol>
+<br />
 <h3>Branches</h3>
 <!-- Shows branches on the browser -->
 <br/>
@@ -9,7 +13,7 @@
         <input type="hidden" name="projectBranchId" value="{{../projectBranchId}}" />
         <input type="hidden" name="projectBranchProjectName" value="{{../projectBranchProjectName}}" />
         <input type="hidden" name="projectBranchProjectUserName" value="{{../projectBranchProjectUserName}}" />
-        <input type="hidden" name="branchName" value="{{this}}" />
+        <input type="hidden" name="projectBranchName" value="{{this}}" />
         <input type="submit" value="{{this}}" />
       </fieldset>
     </form>

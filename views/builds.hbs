@@ -1,3 +1,8 @@
+<ol class="breadcrumb">
+  <li class="text-primary breadcrumb-item">Project name - {{projectName}}</li>
+  <li class="text-primary breadcrumb-item">Branch name - {{projectBranchName}}</li>
+</ol>
+<br />
 <h3>Builds</h3>
 <!-- Shows branches on the browser -->
 <br/>
@@ -29,6 +34,9 @@
         <td>
             <form action="/projects/branches/builds/install" method="post" enctype="multipart/form-data">
                 <fieldset>
+                    <input type="hidden" name="projectName" value="{{../projectName}}" />
+                    <input type="hidden" name="projectBranchName" value="{{../projectBranchName}}" />
+                    <input type="hidden" name="projectBranchBuildName" value="{{lookup ../buildName @index}}" />
                     <input type="hidden" name="dataUrl" value="{{../gitLabUrl}}/{{../projectUserName}}/{{../projectName}}/-/jobs/{{this}}/artifacts/raw/app/build/outputs/apk/app-debug.apk"
                     />
                     <input type="submit" value="Install" />
@@ -43,6 +51,9 @@
         <td>
             <form action="/projects/branches/builds/trace" method="post" enctype="multipart/form-data">
                 <fieldset>
+                    <input type="hidden" name="projectName" value="{{../projectName}}" />
+                    <input type="hidden" name="projectBranchName" value="{{../projectBranchName}}" />
+                    <input type="hidden" name="projectBranchBuildName" value="{{lookup ../buildName @index}}" />
                     <input type="hidden" name="dataUrl" value="{{../gitLabUrl}}/{{../projectUserName}}/{{../projectName}}/-/jobs/{{this}}/trace"
                     />
                     <input type="submit" value="Open stack trace" />

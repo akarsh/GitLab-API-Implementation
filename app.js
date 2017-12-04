@@ -1,3 +1,6 @@
+/**
+  * Copyright (c) 2017 Akarsh Seggemu
+**/
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -5,7 +8,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var formidable = require("formidable");
+var fs = require('fs'); // fs library https://www.npmjs.com/package/fs
+var util = require('util'); // util library https://www.npmjs.com/package/util
+
+var formidable = require("formidable"); // formidable library https://www.npmjs.com/package/formidable
 
 // GitLab nodeJS library to access GitLab API
 var gitlab = require('gitlab');
