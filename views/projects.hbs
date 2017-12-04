@@ -1,0 +1,17 @@
+<h3>Projects</h3>
+<!-- Shows projects on the browser -->
+<br/>
+{{#each projectName}}
+<ul class="projects_list">
+  <li>
+    <form action="/projects/branches" method="post" enctype="multipart/form-data">
+      <fieldset>
+        <input type="hidden" name="projectId" value="{{lookup ../projectId @index}}" />
+        <input type="hidden" name="projectUserName" value="{{lookup ../projectUserName @index}}" />
+        <input type="hidden" name="projectName" value="{{this}}" />
+        <input type="submit" value="{{this}}" />
+      </fieldset>
+    </form>
+  </li>
+</ul>
+{{/each}}

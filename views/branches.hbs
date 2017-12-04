@@ -1,0 +1,18 @@
+<h3>Branches</h3>
+<!-- Shows branches on the browser -->
+<br/>
+{{#each branches}}
+<ul class="branches_list">
+  <li>
+    <form action="/projects/branches/builds" method="post" enctype="multipart/form-data">
+      <fieldset>
+        <input type="hidden" name="projectBranchId" value="{{../projectBranchId}}" />
+        <input type="hidden" name="projectBranchProjectName" value="{{../projectBranchProjectName}}" />
+        <input type="hidden" name="projectBranchProjectUserName" value="{{../projectBranchProjectUserName}}" />
+        <input type="hidden" name="branchName" value="{{this}}" />
+        <input type="submit" value="{{this}}" />
+      </fieldset>
+    </form>
+  </li>
+</ul>
+{{/each}}

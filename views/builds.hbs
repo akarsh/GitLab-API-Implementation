@@ -1,0 +1,48 @@
+<h3>Builds</h3>
+<!-- Shows branches on the browser -->
+<br/>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Stage</th>
+        <th>Reference branch &nbsp; &nbsp; &nbsp; </th>
+        <th>Artifact (filename and size) &nbsp; &nbsp; &nbsp; </th>
+        <th>Download artifact &nbsp; &nbsp; &nbsp; &nbsp; </th>
+        <th>Install artifact</th>
+        <th>Stack trace</th>
+    </tr>
+    {{#each buildID}}
+    <tr>
+        <td>{{this}} &nbsp; &nbsp; &nbsp; &nbsp; </td>
+        <td>{{lookup ../buildName @index}} &nbsp; &nbsp; &nbsp; &nbsp; </td>
+        <td>{{lookup ../buildStatus @index}} &nbsp; &nbsp; &nbsp; </td>
+        <td>{{lookup ../buildStage @index}} &nbsp; &nbsp; &nbsp; &nbsp; </td>
+        <td>{{lookup ../buildRefere @index}}</td>    
+        <td>{{{lookup ../JSONParsedFilename @index}}} {{lookup ../JSONParsedFileSize @index}}</td>
+        <td>
+            <a class="glyphicon glyphicon-cloud-download" aria-hidden="true" href="{{../gitLabUrl}}/{{../projectUserName}}/{{../projectName}}/-/jobs/{{this}}/artifacts/download">
+            </a>
+        </td>
+        <td>
+            <form action="/projects/branches/builds/install" method="post" enctype="multipart/form-data">
+                <fieldset>
+                    <input type="hidden" name="dataUrl" value="{{../gitLabUrl}}/{{../projectUserName}}/{{../projectName}}/-/jobs/{{this}}/artifacts/raw/app/build/outputs/apk/app-debug.apk"
+                    />
+                    <input type="submit" value="Install" />
+                </fieldset>
+            </form>
+        </td>
+        <td>
+            <form action="/projects/branches/builds/trace" method="post" enctype="multipart/form-data">
+                <fieldset>
+                    <input type="hidden" name="dataUrl" value="{{../gitLabUrl}}/{{../projectUserName}}/{{../projectName}}/-/jobs/{{this}}/trace"
+                    />
+                    <input type="submit" value="Open stack trace" />
+                </fieldset>
+            </form>
+        </td>
+    </tr>
+    {{/each}}
+</table>

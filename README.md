@@ -1,20 +1,22 @@
-[![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 # GitLab-API-Implementation
+
 This project demonstrates, how to integrate gitlab api and abdkit library in a simple website application using nodejs.
 
 ## Table of Contents
+
 - [Introduction](#introduction)
 - [Installation](#installation)
+- [Project file structure](#Project_file_structure)
 - [Tutorial](#tutorial)
 - [Credits](#credits)
 
 ### Introduction
+
 This project was created to make it easy for the testers to download an artifact file i.e. apk file without navigating through the multiple pages in GitLab website. and it integrates the adbkit. Which allows the tester to install the artifact file i.e. apk file on all the connected devices to the computer; where this application is running.
 
-Note: You need to initialise adb on the computer and check all the devices are connected to the computer via 
-``` 
-$ adb devices 
-```
+Note: You need to initialise adb on the computer and check all the devices are connected to the computer via
+
+    $ adb devices
 
 **Note:**
 
@@ -23,11 +25,22 @@ $ adb devices
 > For more details on the adbkit library. Refer to [adbkit](https://github.com/openstf/adbkit)
 
 ## Installation
+
 cd into folder `GitLab-API-Implementation` then
 
     npm install -save
 
+### Project file structure
+
+* [`app.js`](app.js) - Application starting point
+* [`node_modules/`](node_modules) - Contains all the downloaded dependent node modules
+* [`public/`](public) - Contains the image files, js files and css dependencies
+* [`package.json`](package.json) - Contains the dependency configuration for npm managed node modules
+* [`routes/`](routes) - URL(HTTP method) to controller mapping and all file paths of jade files are declared
+* [`views/`](views) - Contains the view templates for the application
+
 ### Tutorial
+
 The library files are declared
 ```
 var http = require('http'); // http library https://www.npmjs.com/package/http
@@ -66,45 +79,49 @@ var storeBuildArtifacts = []; // Build Artifacts
 ```
 
 Express library is used to do the routing
-```
-// Serves resources to the static web pages
-// The public folder has sub-folder images. Which contains the images.
-app.use(express.static(__dirname + '/public'));
 
-// GET method that displays the form.html
-app.get('/', function (req, res) {
-    displayForm(res);
-})
-// POST method that process the data from form.html
-app.post('/step1', function (req, res) {
-    processAllFieldsOfTheForm(req, res);
+```js
+/* GET home page. */
+router.get('/', function (req, res) {
+  res.render('index', {
+    title: 'Home'
+  });
 });
-// POST method that process the dataUrl sent from the step1 and install the artifact file i.e. apk file on the connected device.
-app.post('/step2', function (req, res) {
-    secondProcessTheButtonFrom(req, res);
-})
+
+/* POST projects page. */
+router.post('/projects', function (req, res) {
+  processAllFieldsOfTheProjectsForm(req, res);
+});
+
+/* POST branches page. */
+router.post('/projects/branches', function (req, res) {
+  processAllFieldsOfTheBranchesForm(req, res);
+});
+
+/* POST builds page. */
+router.post('/projects/branches/builds', function (req, res) {
+  processAllFieldsOfTheBuildsForm(req, res);
+});
+
+/* POST trace page. */
+router.post('/projects/branches/builds/trace', function (req, res) {
+  processAllFieldsOfTraceForm(req, res);
+});
+
+/* POST trace page. */
+router.post('/projects/branches/builds/install', function (req, res) {
+  processAllFieldsOfInstallForm(req, res);
+});
 ```
 
-The form.html is displayed as the starting page in the web application
-```
-// This function displays the form.html
-function displayForm(res) {
-    fs.readFile('form.html', function (err, data) {
-        res.writeHead(200, {
-            'Content-Type': 'text/html',
-            'Content-Length': data.length
-        });
-        res.write(data);
-        res.end();
-    });
-}
-```
 **Note:**
 
 > For tutorial on how the adbkit is used to install an apk file. Refer to [adkit-install-apk-tutorial](https://github.com/akarsh/adkit-install-apk-tutorial)
 
 ### Credits
+
 This project uses Open Source components. You can find the source code of their open source projects along with license information below. We acknowledge and are grateful to these developers for their contributions to open source.
+
 * Project: [express](https://github.com/expressjs/express)
 
   Author: [209+ contributors](https://github.com/expressjs/express/graphs/contributors)
