@@ -6,7 +6,7 @@ This project demonstrates, how to integrate gitlab api and abdkit library in a s
 
 - [Introduction](#introduction)
 - [Installation](#installation)
-- [Project file structure](#project-file-structuree)
+- [Project file structure](#project-file-structure)
 - [Tutorial](#tutorial)
 - [Credits](#credits)
 
