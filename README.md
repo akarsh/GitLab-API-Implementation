@@ -120,7 +120,7 @@ router.post('/projects/branches/builds/install', function (req, res) {
 
 ### Credits
 
-This project uses Open Source components. You can find the source code of their open source projects along with license information below. We acknowledge and are grateful to these developers for their contributions to open source.
+This project uses Open Source components. You can find the source code of the open source projects along with license information below. I acknowledge the authors of the open source projects and I'm grateful for their contributions to the open source community.
 
 * Project: [express](https://github.com/expressjs/express)
 
