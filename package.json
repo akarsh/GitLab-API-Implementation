@@ -16,7 +16,7 @@
     "express-slash": "^2.0.1",
     "formidable": "^1.1.1",
     "gitlab": "^4.3.0",
-    "hbs": "~4.0.1",
+    "hbs": "~4.2.0",
     "morgan": "~1.9.0",
     "request": "^2.83.0",
     "serve-favicon": "~2.4.5",
