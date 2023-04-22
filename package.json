@@ -15,7 +15,7 @@
     "express": "^4.17.3",
     "express-slash": "^2.0.1",
     "formidable": "^1.1.1",
-    "gitlab": "^4.3.0",
+    "gitlab": "^14.2.2",
     "hbs": "~4.2.0",
     "morgan": "~1.9.0",
     "request": "^2.83.0",
